@@ -3,19 +3,27 @@ require_relative "./shop"
 class Main
   def self.run
     shop = Shop.new
+    first_user = shop.add_user("Jan Kowalski")
+    second_user = shop.add_user("John Doe")
 
     shop.generate_sample_data
 
     10.times do
-      shop.add_to_basket(shop.products[0])
+      first_user.add_to_basket(shop.products[0])
     end
 
-    shop.remove_from_basket(shop.products[0])
+    first_user.remove_from_basket(shop.products[0])
 
-    shop.add_to_basket(shop.products[1])
-    shop.add_to_basket(shop.products[2])
+    first_user.add_to_basket(shop.products[1])
+    first_user.add_to_basket(shop.products[2])
 
-    shop.print_invoice
+    4.times do
+      second_user.add_to_basket(shop.products[1])
+    end
+
+    first_user.print_invoice
+    puts ""
+    second_user.print_invoice
   end
 end
 

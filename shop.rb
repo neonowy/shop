@@ -2,28 +2,22 @@ require_relative "./product"
 require_relative "./basket"
 require_relative "./warehouse"
 require_relative "./invoice"
+require_relative "./user"
 
 class Shop
-  attr_reader :products, :warehouse, :basket
+  attr_reader :products, :users, :warehouse, :basket
 
   def initialize
     @products = []
+    @users = []
     @warehouse = Warehouse.new
-    @basket = Basket.new(warehouse)
   end
 
-  def add_to_basket(product)
-    basket.add(product)
-  end
+  def add_user(name)
+    user = User.new(name: name, shop: self)
+    users << user
 
-  def remove_from_basket(product)
-    basket.remove(product)
-  end
-
-  def print_invoice
-    invoice = Invoice.new(basket)
-
-    invoice.print
+    user
   end
 
   def generate_sample_data

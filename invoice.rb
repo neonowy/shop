@@ -1,9 +1,12 @@
 class Invoice
-  def initialize(basket)
+  def initialize(buyer:, basket:)
+    @buyer = buyer
     @basket = basket
   end
 
   def print
+    print_header
+
     @basket.items.each_with_index do |item, index|
       print_basket_item(item, index)
     end
@@ -29,12 +32,20 @@ class Invoice
     end
   end
 
+  def print_header
+    puts "Rachunek dla:"
+    puts @buyer
+    puts "------------------"
+    puts ""
+  end
+
   def print_summary
     sum = '%.2f' % @basket.sum
     sum_with_vat = '%.2f' % @basket.sum_with_vat
 
+    puts ""
     puts "------------------"
-    puts "    Suma: #{sum} PLN"
-    puts "   z VAT: #{sum_with_vat} PLN"
+    puts "  Suma: #{sum} PLN"
+    puts " z VAT: #{sum_with_vat} PLN"
   end
 end
