@@ -1,29 +1,22 @@
-require_relative "./product"
-require_relative "./basket"
-require_relative "./warehouse"
-require_relative "./invoice"
+require_relative "./shop"
 
-@products = []
+class Main
+  def self.run
+    shop = Shop.new
 
-@warehouse = Warehouse.new
-@basket = Basket.new(@warehouse)
-@invoice = Invoice.new(@basket)
+    shop.generate_sample_data
 
-@products << Product.new(name: "Ball", price: 30, discount: 0.5)
-@products << Product.new(name: "Coca-Cola 2l", price: 5.50)
-@products << Product.new(name: "Book", price: 12, vat: 0.08)
+    10.times do
+      shop.add_to_basket(shop.products[0])
+    end
 
-@products.each do |p|
-  @warehouse.add_product(product: p, quantity: 10)
+    shop.remove_from_basket(shop.products[0])
+
+    shop.add_to_basket(shop.products[1])
+    shop.add_to_basket(shop.products[2])
+
+    shop.print_invoice
+  end
 end
 
-10.times do
-  @basket.add(@products[0])
-end
-
-@basket.remove(@products[0])
-
-@basket.add(@products[1])
-@basket.add(@products[2])
-
-@invoice.print
+Main.run
