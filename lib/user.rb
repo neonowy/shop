@@ -17,9 +17,9 @@ class User
     basket.remove(product)
   end
 
-  def print_invoice
+  def get_invoice
     invoice = Invoice.new(buyer: name, basket: basket)
 
-    invoice.print
+    invoice.get_invoice
   end
 end
