@@ -119,6 +119,14 @@ RSpec.describe "Basket" do
           @basket.remove(product)
         }.not_to change { @basket.items.size }
       end
+
+      it "increases product status' quantity" do
+        10.times { @basket.add(product) }
+
+        expect {
+          @basket.remove(product)
+        }.to change { @warehouse.statuses.first.quantity }.by(1)
+      end
     end
 
     context "product not in basket" do
