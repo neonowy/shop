@@ -10,7 +10,7 @@ RSpec.describe Invoice do
   let(:warehouse) { Warehouse.new }
   let(:basket) { Basket.new(warehouse) }
 
-  describe "#get_invoice" do
+  describe "#generate_invoice" do
     before do
       first_product = Product.new(name: "Ball", price: 30, discount: 0.5)
       second_product = Product.new(name: "Coca-Cola 2l", price: 5.50)
@@ -23,18 +23,18 @@ RSpec.describe Invoice do
     end
 
     it "returns proper invoice string" do
-      invoice_text = ""
+      invoice_text = "".tap do |i|
+        i << "Rachunek dla:\n"
+        i << "Jan Kowalski\n"
+        i << "------------------\n\n"
+        i << "1. Ball 6szt. x 15.00 PLN = 90.00 PLN\n"
+        i << "2. Coca-Cola 2l 2szt. x 5.50 PLN = 11.00 PLN\n\n"
+        i << "------------------\n"
+        i << "  Suma: 101.00 PLN\n"
+        i << " z VAT: 124.23 PLN\n"
+      end
 
-      invoice_text += "Rachunek dla:\n"
-      invoice_text += "Jan Kowalski\n"
-      invoice_text += "------------------\n\n"
-      invoice_text += "1. Ball 6szt. x 15.00 PLN = 90.00 PLN\n"
-      invoice_text += "2. Coca-Cola 2l 2szt. x 5.50 PLN = 11.00 PLN\n\n"
-      invoice_text += "------------------\n"
-      invoice_text += "  Suma: 101.00 PLN\n"
-      invoice_text += " z VAT: 124.23 PLN\n"
-
-      expect(invoice.get_invoice).to eq(invoice_text)
+      expect(invoice.generate_invoice).to eq(invoice_text)
     end
   end
 end

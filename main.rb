@@ -25,9 +25,9 @@ class Main
       second_user.add_to_basket(shop.products[1])
     end
 
-    puts first_user.get_invoice
+    puts first_user.generate_invoice
     puts ""
-    puts second_user.get_invoice
+    puts second_user.generate_invoice
   end
 end
 

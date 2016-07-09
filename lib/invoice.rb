@@ -4,30 +4,28 @@ class Invoice
     @basket = basket
   end
 
-  def get_invoice
-    invoice = ""
+  def generate_invoice
+    "".tap do |invoice|
+      invoice << generate_header
 
-    invoice += get_header
+      @basket.items.each_with_index do |basket_item, index|
+        invoice << generate_invoice_item(basket_item, index)
+      end
 
-    @basket.items.each_with_index do |item, index|
-      invoice += get_basket_item(item, index)
+      invoice << generate_summary
     end
-
-    invoice += get_summary
-
-    invoice
   end
 
   private
 
-  def get_basket_item(item, index)
-    product = item.product
-    quantity = item.quantity
+  def generate_invoice_item(basket_item, index)
+    product = basket_item.product
+    quantity = basket_item.quantity
 
     item_no = index + 1
 
+    item_price = '%.2f' % basket_item.price
     product_price = '%.2f' % product.price
-    item_price = '%.2f' % item.price
 
     if quantity > 1
       "#{item_no}. #{product.name} #{quantity}szt. x #{product_price} PLN = #{item_price} PLN\n"
@@ -36,7 +34,7 @@ class Invoice
     end
   end
 
-  def get_header
+  def generate_header
     header = ""
 
     header += "Rachunek dla:\n"
@@ -46,7 +44,7 @@ class Invoice
     header
   end
 
-  def get_summary
+  def generate_summary
     summary = ""
 
     sum = '%.2f' % @basket.sum
