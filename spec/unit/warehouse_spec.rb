@@ -34,7 +34,7 @@ RSpec.describe Warehouse do
       it "raises error" do
         expect {
           warehouse.increase_product_status(product)
-        }.to raise_error ProductNotFound
+        }.to raise_error(ProductNotFound)
       end
     end
 
@@ -44,7 +44,7 @@ RSpec.describe Warehouse do
       it "raises error" do
         expect {
           warehouse.increase_product_status(nil)
-        }.to raise_error ArgumentError
+        }.to raise_error(ArgumentError)
       end
     end
   end
@@ -66,7 +66,7 @@ RSpec.describe Warehouse do
       it "raises error" do
         expect {
           warehouse.decrease_product_status(product)
-        }.to raise_error QuantityLevelError
+        }.to raise_error(QuantityLevelError)
       end
     end
 
@@ -74,7 +74,7 @@ RSpec.describe Warehouse do
       it "raises error" do
         expect {
           warehouse.decrease_product_status(product)
-        }.to raise_error ProductNotFound
+        }.to raise_error(ProductNotFound)
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe Warehouse do
       it "raises error" do
         expect {
           warehouse.decrease_product_status(nil)
-        }.to raise_error ArgumentError
+        }.to raise_error(ArgumentError)
       end
     end
   end
@@ -110,7 +110,7 @@ RSpec.describe Warehouse do
       it "raises error" do
         expect {
           warehouse.in_stock?(product)
-        }.to raise_error ProductNotFound
+        }.to raise_error(ProductNotFound)
       end
     end
 
@@ -118,7 +118,7 @@ RSpec.describe Warehouse do
       it "raises error" do
         expect {
           warehouse.in_stock?(nil)
-        }.to raise_error ArgumentError
+        }.to raise_error(ArgumentError)
       end
     end
   end

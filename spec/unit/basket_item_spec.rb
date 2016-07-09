@@ -34,7 +34,7 @@ RSpec.describe BasketItem do
       it "raises error" do
         expect {
           basket_item.decrease_quantity
-        }.to raise_error QuantityLevelError
+        }.to raise_error(QuantityLevelError)
       end
     end
   end

@@ -60,7 +60,7 @@ RSpec.describe "Basket" do
       it "raises error" do
         expect {
           @basket.add(product)
-        }.to raise_error ProductNotFound
+        }.to raise_error(ProductNotFound)
       end
 
       it "doesn't add new product to basket's items" do
@@ -81,7 +81,7 @@ RSpec.describe "Basket" do
       it "raises error" do
         expect {
           @basket.add(nil)
-        }.to raise_error ArgumentError
+        }.to raise_error(ArgumentError)
       end
     end
   end
@@ -139,7 +139,7 @@ RSpec.describe "Basket" do
       it "raises error" do
         expect {
           @basket.remove(Product.new(name: "foo", price: 1000))
-        }.to raise_error ProductNotFound
+        }.to raise_error(ProductNotFound)
       end
     end
 
@@ -154,7 +154,7 @@ RSpec.describe "Basket" do
       it "raises error" do
         expect {
           @basket.remove(nil)
-        }.to raise_error ArgumentError
+        }.to raise_error(ArgumentError)
       end
     end
   end
