@@ -1,5 +1,2 @@
-class ProductNotFound < StandardError
-end
-
-class QuantityLevelError < StandardError
-end
+ProductNotFound = Class.new(StandardError)
+QuantityLevelError = Class.new(StandardError)
