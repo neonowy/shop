@@ -1,6 +1,5 @@
 require_relative "../../lib/warehouse"
 require_relative "../../lib/product"
-require_relative "../../lib/product_not_found"
 
 RSpec.describe Warehouse do
   subject(:warehouse) { Warehouse.new }
@@ -67,7 +66,7 @@ RSpec.describe Warehouse do
       it "raises error" do
         expect {
           warehouse.decrease_product_status(product)
-        }.to raise_error(StandardError)
+        }.to raise_error QuantityLevelError
       end
     end
 

@@ -1,5 +1,5 @@
+require_relative './exceptions'
 require_relative './product_status'
-require_relative './product_not_found'
 
 class Warehouse
   attr_reader :statuses
@@ -28,7 +28,7 @@ class Warehouse
 
     raise ArgumentError unless product
     raise ProductNotFound unless status
-    raise StandardError unless status.quantity > 0
+    raise QuantityLevelError unless status.quantity > 0
 
     status.quantity -= 1
   end

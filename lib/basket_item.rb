@@ -1,3 +1,5 @@
+require_relative "./exceptions"
+
 class BasketItem
   attr_reader :product, :quantity
 
@@ -11,7 +13,7 @@ class BasketItem
   end
 
   def decrease_quantity
-    raise StandardError unless @quantity > 0
+    raise QuantityLevelError unless @quantity > 0
 
     @quantity -= 1
   end

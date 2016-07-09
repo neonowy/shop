@@ -1,4 +1,5 @@
-require_relative "../../lib/basket_item.rb"
+require_relative "../../lib/basket_item"
+require_relative "../../lib/product"
 
 RSpec.describe BasketItem do
   subject(:basket_item) { BasketItem.new(product) }
@@ -33,7 +34,7 @@ RSpec.describe BasketItem do
       it "raises error" do
         expect {
           basket_item.decrease_quantity
-        }.to raise_error StandardError
+        }.to raise_error QuantityLevelError
       end
     end
   end
