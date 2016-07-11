@@ -35,26 +35,22 @@ class Invoice
   end
 
   def generate_header
-    header = ""
-
-    header += "Rachunek dla:\n"
-    header += "#{@buyer}\n"
-    header += "------------------\n\n"
-
-    header
+    "".tap do |header|
+      header << "Rachunek dla:\n"
+      header << "#{@buyer}\n"
+      header << "------------------\n\n"
+    end
   end
 
   def generate_summary
-    summary = ""
-
     sum = '%.2f' % @basket.sum
     sum_with_vat = '%.2f' % @basket.sum_with_vat
 
-    summary += "\n"
-    summary += "------------------\n"
-    summary += "  Suma: #{sum} PLN\n"
-    summary += " z VAT: #{sum_with_vat} PLN\n"
-
-    summary
+    "".tap do |summary|
+      summary << "\n"
+      summary << "------------------\n"
+      summary << "  Suma: #{sum} PLN\n"
+      summary << " z VAT: #{sum_with_vat} PLN\n"
+    end
   end
 end
