@@ -18,8 +18,6 @@ class User
   end
 
   def generate_invoice
-    invoice = Invoice.new(buyer: name, basket: basket)
-
-    invoice.generate_invoice
+    Invoice.new(buyer: name, basket: basket).generate_invoice
   end
 end
