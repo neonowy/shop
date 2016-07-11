@@ -3,7 +3,9 @@ require_relative "../../lib/product"
 
 RSpec.describe BasketItem do
   subject(:basket_item) { BasketItem.new(product) }
-  let(:product) { Product.new(name: "Ball", price: 10) }
+
+  let(:price) { 10 }
+  let(:product) { Product.new(name: "Ball", price: price) }
 
   describe "#quantity" do
     it "is 0 after creation" do
@@ -43,7 +45,7 @@ RSpec.describe BasketItem do
     before { 6.times { basket_item.increase_quantity } }
 
     it "returns proper price" do
-      expect(basket_item.price).to eq(60)
+      expect(basket_item.price).to eq(6 * price)
     end
   end
 
@@ -51,7 +53,7 @@ RSpec.describe BasketItem do
     before { 6.times { basket_item.increase_quantity } }
 
     it "returns proper price + VAT" do
-      expect(basket_item.price_with_vat).to eq(6 * 12.3)
+      expect(basket_item.price_with_vat).to be_within(0.0001).of(6 * price * 1.23)
     end
   end
 end
