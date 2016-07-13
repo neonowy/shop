@@ -1,0 +1,31 @@
+<main class="basket">
+  <h1>Your basket</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Name</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @basket.items.each_with_index do |item, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= "#{item.quantity}x #{item.product.name}" %></td>
+          <td><%= item.formatted_price %> zł</td>
+          <td>
+            <a href="/basket/remove/<%= item.product.id %>" class="remove-product-btn">X</a>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <section class="summary">
+    <p>Total: <%= @basket.formatted_sum_with_vat %> zł</p>
+    <p>Total brutto: <%= @basket.formatted_sum %> zł</p>
+  </section>
+</main>

@@ -1,0 +1,16 @@
+<ul class="products-list">
+  <% @products.each do |product| %>
+    <li class="product-info">
+      <a href="/products/<%= product.id %>">
+        <img src="/<%= product.image %>">
+        <h2><%= product.name %></h2>
+      </a>
+
+      <% if @warehouse.in_stock?(product) %>
+        <h3><%= product.formatted_price %> zł</h3>
+      <% else %>
+        <h3>OUT OF STOCK</h3>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
