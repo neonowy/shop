@@ -1,5 +1,7 @@
+require_relative './exceptions'
 require_relative './basket_item'
 require_relative './warehouse'
+require_relative './product'
 
 class Basket
   attr_reader :items, :warehouse
@@ -10,6 +12,8 @@ class Basket
   end
 
   def add(product)
+    raise ArgumentError unless product.is_a?(Product)
+
     if warehouse.in_stock?(product)
       item = find_or_create_item(product)
 
@@ -17,7 +21,7 @@ class Basket
 
       warehouse.decrease_product_status(product)
     else
-      puts "Sorry, product is not available at the moment :("
+      raise ProductNotFound
     end
   end
 
@@ -25,9 +29,12 @@ class Basket
     item = find_item(product)
     item_index = find_item_index(product)
 
+    raise ArgumentError if product.nil?
+    raise ProductNotFound unless item
+
     warehouse.increase_product_status(product)
 
-    if item.quantity == 0
+    if item.quantity == 1
       @items.delete_at(item_index)
     else
       item.decrease_quantity

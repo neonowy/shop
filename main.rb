@@ -1,4 +1,4 @@
-require_relative "./shop"
+require_relative "./lib/shop"
 
 class Main
   def self.run
@@ -9,7 +9,11 @@ class Main
     shop.generate_sample_data
 
     10.times do
-      first_user.add_to_basket(shop.products[0])
+      begin
+        first_user.add_to_basket(shop.products[0])
+      rescue ProductNotFound
+        puts "Sorry, product is not available at the moment :("
+      end
     end
 
     first_user.remove_from_basket(shop.products[0])
@@ -21,9 +25,9 @@ class Main
       second_user.add_to_basket(shop.products[1])
     end
 
-    first_user.print_invoice
+    puts first_user.generate_invoice
     puts ""
-    second_user.print_invoice
+    puts second_user.generate_invoice
   end
 end
 
