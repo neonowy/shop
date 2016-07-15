@@ -9,8 +9,6 @@ module Shop
   BASKET = Basket.new
 
   class App < Sinatra::Base
-    require "sinatra/reloader" if development?
-
     enable :sessions
     register Sinatra::Flash
 
@@ -54,7 +52,21 @@ module Shop
       erb :"basket/show"
     end
 
-    post "/basket" do
+    post "/basket/update" do
+      begin
+        UpdateBasketItem.new(params).call
+      rescue QuantityLevelError
+        flash[:error] = "Not enough amount of product is available."
+      rescue NegativeQuantityError
+        flash[:error] = "Invalid quantity value."
+      rescue ProductNotFound
+        halt 404
+      end
+
+      redirect back
+    end
+
+    post "/basket/add" do
       begin
         AddToBasket.new(params).call
       rescue QuantityLevelError
@@ -66,7 +78,7 @@ module Shop
       redirect back
     end
 
-    get "/basket/remove/:id" do
+    post "/basket/remove" do
       begin
         RemoveFromBasket.new(params).call
       rescue ProductNotFound

@@ -54,11 +54,11 @@ module Shop
       end
 
       it "returns p element with basket total price" do
-        expect(last_response.body).to include("<p>Total: 1471.08 zł</p>")
+        expect(last_response.body).to include("<p>1471.08 zł</p>")
       end
 
       it "returns p element with basket total brutto" do
-        expect(last_response.body).to include("<p>Total brutto: 1196 zł</p>")
+        expect(last_response.body).to include("<p>1196 zł</p>")
       end
     end
 

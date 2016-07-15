@@ -17,39 +17,51 @@ module Shop
       @items = []
     end
 
-    def add(product, quantity)
+    def update(product, quantity)
       warehouse = FetchWarehouse.new.call
+      item = find_item(product)
+
+      warehouse_quantity = warehouse.status_for(product).quantity
+      current_quantity = item.quantity
 
       raise ArgumentError unless product.is_a?(Product)
+      raise NegativeQuantityError unless quantity >= 0
+      raise NotInBasket unless item
+      raise QuantityLevelError unless warehouse_quantity + current_quantity >= quantity
 
-      if warehouse.status_for(product).quantity - quantity >= 0
-        item = find_or_create_item(product)
-
-        quantity.times do
-          item.increase_quantity
-          warehouse.decrease_product_status(product)
-        end
+      if quantity == 0
+        remove(product)
       else
-        raise QuantityLevelError
+        add(product, quantity - current_quantity)
       end
+    end
+
+    def add(product, quantity)
+      warehouse = FetchWarehouse.new.call
+      product_status = warehouse.status_for(product)
+
+      raise ArgumentError unless product.is_a?(Product)
+      raise QuantityLevelError unless product_status.quantity - quantity >= 0
+
+      item = find_or_create_item(product)
+
+      item.quantity += quantity
+      product_status.quantity -= quantity
     end
 
     def remove(product)
       warehouse = FetchWarehouse.new.call
+      product_status = warehouse.status_for(product)
 
       item = find_item(product)
-      item_index = find_item_index(product)
+      item_index = find_item_index(item)
 
       raise ArgumentError if product.nil?
       raise NotInBasket unless item
 
-      warehouse.increase_product_status(product)
+      product_status.quantity += item.quantity
 
-      if item.quantity == 1
-        @items.delete_at(item_index)
-      else
-        item.decrease_quantity
-      end
+      @items.delete_at(item_index)
     end
 
     def formatted_sum_with_vat
@@ -86,8 +98,8 @@ module Shop
       @items.find { |i| i.product == product }
     end
 
-    def find_item_index(product)
-      @items.index { |i| i.product == product }
+    def find_item_index(item)
+      @items.find_index { |i| i == item }
     end
   end
 end
