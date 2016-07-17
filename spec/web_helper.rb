@@ -7,12 +7,6 @@ module AppHelper
   def app
     Shop::App
   end
-
-  def clear_data
-    Shop::PRODUCTS.clear
-    Shop::WAREHOUSE.statuses.clear
-    Shop::BASKET.items.clear
-  end
 end
 
 RSpec.configure do |config|

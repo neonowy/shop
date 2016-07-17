@@ -6,7 +6,9 @@
       <tr>
         <th>No.</th>
         <th>Name</th>
+        <th>Unit Price</th>
         <th>Price</th>
+        <th>Quantity</th>
       </tr>
     </thead>
 
@@ -15,9 +17,27 @@
         <tr>
           <td><%= index + 1 %></td>
           <td><%= "#{item.quantity}x #{item.product.name}" %></td>
+          <td><%= item.product.formatted_price %> zł</td>
           <td><%= item.formatted_price %> zł</td>
           <td>
-            <a href="/basket/remove/<%= item.product.id %>" class="remove-product-btn">X</a>
+            <form action="/basket" method="post">
+              <input type="hidden" name="_method" value="put">
+              <input type="hidden" name="product_id" value="<%= item.product.id %>">
+
+              <input type="number" name="quantity" value="<%= item.quantity %>" class="quantity-input">
+
+              <input type="submit" value="Update" class="btn">
+            </form>
+          </td>
+          <td>
+            <form action="/basket" method="post">
+              <input type="hidden" name="_method" value="delete">
+              <input type="hidden" name="product_id" value="<%= item.product.id %>">
+
+              <button type="submit" class="btn">
+                <i class="fa fa-close"></i>
+              </button>
+            </form>
           </td>
         </tr>
       <% end %>
@@ -25,7 +45,10 @@
   </table>
 
   <section class="summary">
-    <p>Total: <%= @basket.formatted_sum_with_vat %> zł</p>
-    <p>Total brutto: <%= @basket.formatted_sum %> zł</p>
+    <span class="label">Total</span>
+    <p><%= @basket.formatted_sum_with_vat %> zł</p>
+
+    <span class="label">Total brutto</span>
+    <p><%= @basket.formatted_sum %> zł</p>
   </section>
 </main>

@@ -5,21 +5,12 @@ module Shop
   class BasketItem
     include FormatHelper
 
-    attr_reader :product, :quantity
+    attr_accessor :quantity
+    attr_reader :product
 
     def initialize(product)
       @product = product
       @quantity = 0
-    end
-
-    def increase_quantity
-      @quantity += 1
-    end
-
-    def decrease_quantity
-      raise QuantityLevelError unless @quantity > 0
-
-      @quantity -= 1
     end
 
     def formatted_price

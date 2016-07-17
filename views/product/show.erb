@@ -10,9 +10,9 @@
       <input type="hidden" name="product_id" value="<%= @product.id %>">
 
       <label for="quantity"></label>
-      <input type="number" name="quantity" value="1" id="quantity">
+      <input type="number" name="quantity" value="1" id="quantity" class="quantity-input">
 
-      <input type="submit" value="Add to basket" class="buy-btn">
+      <input type="submit" value="Add to basket" class="btn">
     </form>
   <% else %>
     <h2 class="product-price">OUT OF STOCK</h2>
