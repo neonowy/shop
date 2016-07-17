@@ -16,9 +16,11 @@ module Shop
     context "with valid product in stock" do
       let(:params) { { product_id: product.id, quantity: 1 } }
 
-      it "returns 200 HTTP code" do
+      before do
         follow_redirect!
+      end
 
+      it "returns 200 HTTP code" do
         expect(last_response.status).to eql(200)
       end
 
@@ -30,22 +32,20 @@ module Shop
     context "with valid product but try to add quantity larger than amount of product in warehouse" do
       let(:params) { { product_id: product.id, quantity: 100 } }
 
-      it "returns 200 HTTP code" do
+      before do
         follow_redirect!
+      end
 
+      it "returns 200 HTTP code" do
         expect(last_response.status).to eql(200)
       end
 
       it "returns valid HTML Content-Type" do
-        follow_redirect!
-
         expect(last_response.headers["Content-Type"]).to include("text/html")
       end
 
       it "returns div.flash.error with 'Not enough amount of product is available.'" do
         error_message = "Not enough amount of product is available."
-
-        follow_redirect!
 
         expect(last_response.body).to include("<div class='flash error'>#{error_message}</div>")
       end
@@ -62,7 +62,7 @@ module Shop
     private
 
     def do_request(params = {})
-      post "/basket/add", params
+      post "/basket", params
     end
   end
 end

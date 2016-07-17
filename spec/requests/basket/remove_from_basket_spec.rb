@@ -1,7 +1,7 @@
 require "web_helper"
 
 module Shop
-  RSpec.describe "POST /basket/remove", type: :request do
+  RSpec.describe "DELETE /basket", type: :request do
     let(:product) { Product.new(name: "Doge", price: 10) }
     let(:product_id) { product.id }
 
@@ -88,7 +88,7 @@ module Shop
     private
 
     def do_request(params)
-      post "/basket/remove", params
+      delete "/basket", params
     end
   end
 end

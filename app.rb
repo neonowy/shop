@@ -9,8 +9,10 @@ module Shop
   BASKET = Basket.new
 
   class App < Sinatra::Base
-    enable :sessions
-    register Sinatra::Flash
+    configure do
+      enable :sessions, :method_override
+      register Sinatra::Flash
+    end
 
     def initialize
       super
@@ -52,21 +54,7 @@ module Shop
       erb :"basket/show"
     end
 
-    post "/basket/update" do
-      begin
-        UpdateBasketItem.new(params).call
-      rescue QuantityLevelError
-        flash[:error] = "Not enough amount of product is available."
-      rescue NegativeQuantityError
-        flash[:error] = "Invalid quantity value."
-      rescue ProductNotFound
-        halt 404
-      end
-
-      redirect back
-    end
-
-    post "/basket/add" do
+    post "/basket" do
       begin
         AddToBasket.new(params).call
       rescue QuantityLevelError
@@ -78,7 +66,21 @@ module Shop
       redirect back
     end
 
-    post "/basket/remove" do
+    put "/basket" do
+      begin
+        UpdateBasketItem.new(params).call
+      rescue QuantityLevelError
+        flash[:error] = "Not enough amount of product is available."
+      rescue NegativeQuantityError
+        flash[:error] = "Invalid quantity value."
+      rescue ProductNotFound
+        halt 404
+      end
+
+      redirect "/basket"
+    end
+
+    delete "/basket" do
       begin
         RemoveFromBasket.new(params).call
       rescue ProductNotFound

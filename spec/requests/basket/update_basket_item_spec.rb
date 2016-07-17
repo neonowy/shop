@@ -1,7 +1,7 @@
 require "web_helper"
 
 module Shop
-  RSpec.describe "POST /basket/update", type: :request do
+  RSpec.describe "PUT /basket", type: :request do
     let(:product) { Product.new(name: "Doge", price: 10) }
 
     before do
@@ -101,7 +101,7 @@ module Shop
     private
 
     def do_request(params = {})
-      post "/basket/update", params
+      put "/basket", params
     end
   end
 end
