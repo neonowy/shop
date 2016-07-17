@@ -27,7 +27,7 @@ module Shop
       raise ArgumentError unless product.is_a?(Product)
       raise NegativeQuantityError unless quantity >= 0
       raise NotInBasket unless item
-      raise QuantityLevelError unless warehouse_quantity + current_quantity >= quantity
+      raise QuantityLevelError unless (warehouse_quantity + current_quantity) >= quantity
 
       if quantity == 0
         remove(product)
@@ -41,7 +41,7 @@ module Shop
       product_status = warehouse.status_for(product)
 
       raise ArgumentError unless product.is_a?(Product)
-      raise QuantityLevelError unless product_status.quantity - quantity >= 0
+      raise QuantityLevelError unless (product_status.quantity - quantity) >= 0
 
       item = find_or_create_item(product)
 
